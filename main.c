@@ -51,33 +51,36 @@ int	ft_isdigit(char c)
 	return (0);
 }
 
-int	argument_is_valid(char *argv, int *count)
+int	argument_is_valid(char *argv)
 {
 	int	flag;
 	int	spaces;
+	int	count;
+	int	i;
 
 	flag = 0;
-	*count = 0;
+	count = 0;
 	spaces = 0;
-	while (argv[*count + flag])
+	i = -1;
+	while (argv[++i])
 	{
-		if ((flag == 0 && !ft_isdigit(argv[*count + flag]))
-			|| (flag == 1 && argv[*count + flag] != ' '))
+		if ((flag == 0 && !ft_isdigit(argv[i]))
+			|| (flag == 1 && argv[i] != ' '))
 			return (0);
-		if (flag == 1 && argv[*count + flag] == ' ')
+		if (flag == 1 && argv[i] == ' ')
 		{
 			flag = 0;
 			spaces++;
 		}
-		if (flag == 0 && ft_isdigit(argv[*count + flag]))
+		if (flag == 0 && ft_isdigit(argv[i]))
 		{
 			flag = 1;
-			*count++;
+			count++;
 		}
 	}
-	if (spaces != *count - 1)
+	if (spaces != count - 1)
 		return (0);
-	return (*count);
+	return (count);
 }
 
 int	get_matrix_size(int	count)
@@ -100,14 +103,13 @@ int	main(int argc, char **argv)
 	char	**matrix;
 	int		matrix_len;
 	int		digits;
-	int		count;
 	
 	if (argc != 2)
 	{
 		printf("Invalid argument 1\n");
 		return (0);
 	}
-	matrix_len = get_matrix_size(argument_is_valid(argv[1]), &count);
+	matrix_len = get_matrix_size(argument_is_valid(argv[1]));
 	if (!matrix_len)
 	{
 		printf("Invalid argument 2\n");
