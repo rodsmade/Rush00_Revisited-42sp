@@ -31,15 +31,52 @@ char	**create_matrix(int matrix_size)
 	return (matrix);
 }
 
+int	validate_input(int matrix_size, char *argv)
+{
+	int	i;
+
+	i = -1;
+	while (argv[++i])
+	{
+		if (argv[i] == '0' || argv[i] > (matrix_size + '0'))
+			return (0);
+	}
+	return (1);
+}
+
+void	check_input_pairs(char *argv)
+/*
+	CONCLUSÃO 1: a combinação [MAX_SIZE, N] só é OK se N = 1;
+	CONCLUSÃO 2*: a combinação [N, N] onde N > 1 e N <= MAX_SIZE/2 é OK, caso contrário, NOK;
+		*para números ímpares, [N+1, N+1] é ok !!!! 
+	CONCLUSÃO 3: ATÉ: [i, MAX_SIZE - i + 1] => OK
+	----
+	fazer check_row e check_column, e só precisa testar 1x da esquerda pra direita e 1x de cima pra baixo
+*/
+{
+}
+
 void	rush01(int matrix_size, char *argv[])
 {
 	char	**matrix;
 
-	// validate_input(); // valida: se o range tá certo (não entra 0's e numeros > matrix_size); e se matrix size >=4 e <=9;
+	if (matrix_size < 4 || matrix_size > 9)
+	{
+		write(1, "Size must be between 4x4 and 9x9\n", 33);
+		return ;
+	}
+// validate_input(); // valida: se o range tá certo (não entra 0's e numeros > matrix_size); e se matrix size >=4 e <=9;
+	if (!validate_input(matrix_size, argv[1]))
+	{
+		write(1, "Invalid input! 3\n", 17);
+		return ;
+	}
 	matrix = create_matrix(matrix_size);
+	if (!matrix)
+		return;
+
 	return ;
 }
-
 
 int	ft_isdigit(char c)
 {
